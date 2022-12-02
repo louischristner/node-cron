@@ -79,7 +79,7 @@ cron.schedule(`0 0 */1 * * *`, async () => {
     // send info to server
     await axios({
       method: 'get',
-      url: `${backendUrl}/api/allsportdb/notify?date=${startDate}`,
+      url: encodeURI(`${backendUrl}/api/allsportdb/notify?date=${startDate}`),
     });
 
   } catch (err) {
