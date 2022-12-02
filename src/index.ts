@@ -19,7 +19,7 @@ mongoose.connect(mongoDBUri, { useNewUrlParser: true, useUnifiedTopology: true }
   .then((_res: any) => console.log("Conneted to mongoDB"))
   .catch((error: any) => console.error(error));
 
-cron.schedule(`* */1 * * *`, async () => {
+cron.schedule(`0 0 */1 * * *`, async () => {
   console.log(`running your task...`);
 
   const startDate = new Date();
@@ -52,13 +52,17 @@ cron.schedule(`* */1 * * *`, async () => {
         sportEvents.push(event);
       }
 
-      break;
-
       // wait 5 seconds
       await delay(5000);
     }
 
-    console.log("SPORT EVENTS", sportEvents);
+    console.log("SPORT EVENTS", sportEvents.map(event => {
+      return {
+        name: event.name,
+        sport: event.sport,
+        date: event.date,
+      };
+    }));
 
     // store data in db
     for (const event of sportEvents) {
